@@ -20,13 +20,9 @@ button.addEventListener(
 
     const payload = { label: input.value, complete: false };
 
-    store.dispatch({
-      type: 'ADD_TODO',
-      payload,
-    });
-
-    console.log(store.value);
-
+    store.dispatch(new fromStore.AddTodo(payload)); // the Action Creator 'AddTodo' turns this from  
+                                                    // multiple lines of code into a single line of
+                                                    // code, really nice.
     input.value = '';
   },
   false
@@ -41,7 +37,8 @@ destroy.addEventListener('click', unsubscribe, false);
 todoList.addEventListener('click', function(event) {
   const target = event.target as HTMLButtonElement;
   if (target.nodeName.toLowerCase() === 'button') {
-    console.log(target);
+    const todo = JSON.parse(target.getAttribute('data-todo') as any);
+    store.dispatch( new fromStore.RemoveTodo(todo) );
   }
 });
 
